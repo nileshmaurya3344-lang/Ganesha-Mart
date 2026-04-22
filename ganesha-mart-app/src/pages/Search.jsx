@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import ProductCard from '../components/ProductCard';
+import { useCart } from '../contexts/CartContext';
 
 export default function Search() {
   const navigate = useNavigate();
+  const { totalItems } = useCart();
   const [query, setQuery] = useState('');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -132,6 +134,16 @@ export default function Search() {
           </div>
         )}
       </div>
+
+      {totalItems > 0 && (
+        <div className="view-cart-bar" onClick={() => navigate('/cart')}>
+          <span>{totalItems} item{totalItems > 1 ? 's' : ''} in cart</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <span>View Cart</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

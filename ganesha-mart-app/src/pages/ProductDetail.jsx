@@ -12,7 +12,7 @@ export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { addToCart, updateQty, getQty, getCartItem } = useCart();
+  const { addToCart, updateQty, getQty, getCartItem, totalItems } = useCart();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -152,26 +152,41 @@ export default function ProductDetail() {
           </div>
         )}
 
-        {/* Add to Cart */}
-        <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, padding: '16px', background: 'var(--surface-lowest)', borderTop: '1px solid var(--outline-variant)', zIndex: 50 }}>
+        {/* Add to Cart Sticky Bar */}
+        <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, padding: '16px', background: 'var(--surface-lowest)', borderTop: '1px solid var(--outline-variant)', zIndex: 100 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 12, color: 'var(--outline)' }}>Total</div>
+              <div style={{ fontSize: 12, color: 'var(--outline)' }}>Total Price</div>
               <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)' }}>₹{(product.price * (qty || 1)).toFixed(0)}</div>
             </div>
             {qty === 0 ? (
-              <button className="btn-primary" style={{ width: 'auto', flex: 1 }} onClick={handleAdd}>
+              <button className="btn-primary" style={{ width: 'auto', flex: 1.5, height: 48 }} onClick={handleAdd}>
                 Add to Cart
               </button>
             ) : (
-              <div className="stepper" style={{ flex: 1, justifyContent: 'center', padding: '8px 12px' }}>
-                <button onClick={() => updateQty(cartItem.id, qty - 1)}>−</button>
-                <span>{qty}</span>
-                <button onClick={() => updateQty(cartItem.id, qty + 1)}>+</button>
+              <div style={{ flex: 1.5, display: 'flex', gap: 8 }}>
+                <div className="stepper" style={{ flex: 1, height: 48, justifyContent: 'center' }}>
+                  <button onClick={() => updateQty(cartItem.id, qty - 1)}>−</button>
+                  <span style={{ fontWeight: 700 }}>{qty}</span>
+                  <button onClick={() => updateQty(cartItem.id, qty + 1)}>+</button>
+                </div>
+                <button className="btn-primary" style={{ width: 'auto', flex: 1, height: 48, background: 'var(--tertiary)' }} onClick={() => navigate('/cart')}>
+                  Proceed
+                </button>
               </div>
             )}
           </div>
         </div>
+
+        {totalItems > 0 && qty === 0 && (
+          <div className="view-cart-bar" style={{ bottom: 84 }} onClick={() => navigate('/cart')}>
+            <span>{totalItems} item{totalItems > 1 ? 's' : ''} in cart</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span>View Cart</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </div>
+          </div>
+        )}
       </div>
 
       <div style={{ height: 90 }} />
