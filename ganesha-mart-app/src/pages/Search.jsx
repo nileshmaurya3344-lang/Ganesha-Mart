@@ -8,6 +8,30 @@ export default function Search() {
   const [query, setQuery] = useState('');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [recentSearches, setRecentSearches] = useState([]);
+  const [popularProducts, setPopularProducts] = useState([]);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('recentSearches');
+    if (saved) setRecentSearches(JSON.parse(saved));
+    fetchPopularProducts();
+  }, []);
+
+  async function fetchPopularProducts() {
+    const { data } = await supabase
+      .from('products')
+      .select('*, categories(name)')
+      .eq('is_active', true)
+      .limit(6);
+    setPopularProducts(data || []);
+  }
+
+  const addToRecent = (term) => {
+    const filtered = [term, ...recentSearches.filter(s => s !== term)].slice(0, 5);
+    setRecentSearches(filtered);
+    localStorage.setItem('recentSearches', JSON.stringify(filtered));
+  };
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,6 +50,7 @@ export default function Search() {
       .eq('is_active', true)
       .order('created_at', { ascending: false });
     setProducts(data || []);
+    if (data?.length > 0) addToRecent(q);
     setLoading(false);
   }
 
@@ -66,16 +91,44 @@ export default function Search() {
             <p>Try searching for something else</p>
           </div>
         ) : (
-          <div>
-            <h3 style={{ fontSize: 14, color: 'var(--outline)', marginBottom: 12 }}>Trending Searches</h3>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-              {['Milk', 'Bread', 'Eggs', 'Potato', 'Onion', 'Maggi'].map(term => (
-                <span key={term} className="chip" onClick={() => setQuery(term)}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: 6 }}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
-                  {term}
-                </span>
-              ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {recentSearches.length > 0 && (
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                  <h3 style={{ fontSize: 14, color: 'var(--on-surface-variant)', fontWeight: 700 }}>Recent Searches</h3>
+                  <button onClick={() => { setRecentSearches([]); localStorage.removeItem('recentSearches'); }} style={{ background: 'none', border: 'none', color: 'var(--primary)', fontSize: 12, fontWeight: 600 }}>Clear</button>
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                  {recentSearches.map(term => (
+                    <span key={term} className="chip" onClick={() => setQuery(term)} style={{ background: 'var(--surface-container-low)' }}>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: 6 }}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      {term}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div>
+              <h3 style={{ fontSize: 14, color: 'var(--on-surface-variant)', fontWeight: 700, marginBottom: 12 }}>Trending Searches</h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
+                {['Milk', 'Bread', 'Eggs', 'Potato', 'Onion', 'Maggi'].map(term => (
+                  <span key={term} className="chip" onClick={() => setQuery(term)}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginRight: 6 }}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                    {term}
+                  </span>
+                ))}
+              </div>
             </div>
+
+            {popularProducts.length > 0 && (
+              <div>
+                <h3 style={{ fontSize: 14, color: 'var(--on-surface-variant)', fontWeight: 700, marginBottom: 16 }}>Recommended for You</h3>
+                <div className="products-grid" style={{ gridTemplateColumns: 'repeat(2, 1fr)' }}>
+                  {popularProducts.map(p => <ProductCard key={p.id} product={p} />)}
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>

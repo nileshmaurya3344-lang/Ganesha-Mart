@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
+import BottomNav from '../components/BottomNav';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -55,12 +56,16 @@ export default function Login() {
       {/* Top Green Section */}
       <div style={{
         background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-container) 100%)',
-        padding: '60px 32px 80px',
+        padding: '20px 20px 80px',
         borderRadius: '0 0 40px 40px',
         textAlign: 'center',
         color: 'white',
+        position: 'relative'
       }}>
-        <div style={{ fontSize: 56, marginBottom: 12 }}>🛒</div>
+        <button onClick={() => navigate(-1)} style={{ position: 'absolute', top: 20, left: 20, background: 'rgba(255,255,255,0.2)', border: 'none', borderRadius: '50%', width: 40, height: 40, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'white' }}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <div style={{ fontSize: 56, marginBottom: 12, marginTop: 40 }}>🛒</div>
         <h1 style={{ fontSize: 28, fontWeight: 800, letterSpacing: '-0.02em' }}>Ganesha Mart</h1>
         <p style={{ fontSize: 14, opacity: 0.85, marginTop: 4 }}>Fresh groceries delivered in 30 minutes</p>
       </div>
@@ -139,9 +144,11 @@ export default function Login() {
         </p>
       </div>
 
-      <div style={{ textAlign: 'center', marginTop: 24, color: 'var(--outline)', fontSize: 12 }}>
+      <div style={{ textAlign: 'center', marginTop: 24, marginBottom: 100, color: 'var(--outline)', fontSize: 12 }}>
         📍 Delivering to Vinay Nagar, Faridabad
       </div>
+
+      <BottomNav active="profile" />
     </div>
   );
 }
