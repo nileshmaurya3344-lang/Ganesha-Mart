@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fruits &amp; Vegetables</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f3f6",
+                        "surface-container": "#eeeef0",
+                        "primary-fixed-dim": "#66df73",
+                        "tertiary-fixed": "#eaddff",
+                        "primary-fixed": "#82fc8c",
+                        "surface-container-highest": "#e2e2e5",
+                        "secondary": "#994700",
+                        "on-surface-variant": "#3e4a3c",
+                        "inverse-on-surface": "#f0f0f3",
+                        "surface-variant": "#e2e2e5",
+                        "primary": "#006e24",
+                        "secondary-container": "#fb7800",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#440099",
+                        "on-surface": "#1a1c1e",
+                        "outline-variant": "#bdcab8",
+                        "on-background": "#1a1c1e",
+                        "tertiary-fixed-dim": "#d2bbff",
+                        "secondary-fixed-dim": "#ffb68b",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5a00c6",
+                        "on-error": "#ffffff",
+                        "primary-container": "#38b44e",
+                        "tertiary-container": "#af88ff",
+                        "inverse-surface": "#2f3133",
+                        "on-primary-container": "#003f11",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#25005a",
+                        "outline": "#6e7b6b",
+                        "inverse-primary": "#66df73",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#321200",
+                        "surface-tint": "#006e24",
+                        "on-primary-fixed-variant": "#005319",
+                        "surface-dim": "#dadadc",
+                        "on-secondary-container": "#592600",
+                        "surface-container-high": "#e8e8ea",
+                        "surface": "#f9f9fc",
+                        "secondary-fixed": "#ffdbc8",
+                        "on-secondary-fixed-variant": "#753400",
+                        "surface-bright": "#f9f9fc",
+                        "background": "#f9f9fc",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#732ee4",
+                        "on-primary-fixed": "#002106"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "0.25rem",
+                        "container-margin": "1rem",
+                        "stack-lg": "1.5rem",
+                        "stack-md": "1rem",
+                        "gutter": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Be Vietnam Pro"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-lg": ["Be Vietnam Pro"],
+                        "body-md": ["Be Vietnam Pro"],
+                        "body-lg": ["Be Vietnam Pro"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+                        "label-lg": ["14px", {"lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600"}],
+                        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body-md text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="flex justify-between items-center w-full px-4 py-3 sticky top-0 z-50 bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 shadow-sm transition-colors duration-200">
+<div class="flex items-center gap-2 text-[#38B44E] font-['Plus_Jakarta_Sans'] font-semibold text-sm hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg p-1 -ml-1 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">location_on</span>
+<div class="flex flex-col">
+<span class="text-xs text-gray-500 dark:text-gray-400 font-normal">Delivering to</span>
+<span class="truncate max-w-[200px]">Delivering to Vinay Nagar, Faridabad</span>
+</div>
+<span class="material-symbols-outlined text-gray-400">expand_more</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 p-1 rounded-full transition-colors duration-200" style="font-variation-settings: 'FILL' 0;">account_circle</span>
+</div>
+</header>
+<!-- Page Content -->
+<main class="pb-24">
+<!-- Category Header & Sub-nav -->
+<section class="bg-surface-container-lowest pt-stack-md pb-stack-sm px-container-margin sticky top-[60px] z-40 shadow-[0_4px_12px_rgba(0,0,0,0.02)]">
+<h1 class="font-headline-md text-headline-md text-on-surface mb-stack-sm">Fruits &amp; Vegetables</h1>
+<div class="flex overflow-x-auto hide-scrollbar gap-stack-sm pb-2 -mx-container-margin px-container-margin snap-x">
+<button class="snap-start shrink-0 flex items-center justify-center px-4 py-2 bg-primary-container text-on-primary-container font-label-lg text-label-lg rounded-full border border-primary-container transition-colors">
+                    All
+                </button>
+<button class="snap-start shrink-0 flex items-center justify-center px-4 py-2 bg-surface-container-lowest text-on-surface-variant font-label-lg text-label-lg rounded-full border border-outline-variant hover:bg-surface-container-low transition-colors">
+                    Fresh Fruits
+                </button>
+<button class="snap-start shrink-0 flex items-center justify-center px-4 py-2 bg-surface-container-lowest text-on-surface-variant font-label-lg text-label-lg rounded-full border border-outline-variant hover:bg-surface-container-low transition-colors">
+                    Daily Veggies
+                </button>
+<button class="snap-start shrink-0 flex items-center justify-center px-4 py-2 bg-surface-container-lowest text-on-surface-variant font-label-lg text-label-lg rounded-full border border-outline-variant hover:bg-surface-container-low transition-colors">
+                    Exotic &amp; Premium
+                </button>
+<button class="snap-start shrink-0 flex items-center justify-center px-4 py-2 bg-surface-container-lowest text-on-surface-variant font-label-lg text-label-lg rounded-full border border-outline-variant hover:bg-surface-container-low transition-colors">
+                    Organic
+                </button>
+</div>
+</section>
+<!-- Product Grid -->
+<section class="p-container-margin">
+<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-gutter">
+<!-- Product Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col relative group">
+<div class="absolute top-2 left-2 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2 py-0.5 rounded text-[10px] uppercase font-bold z-10 shadow-sm">
+                        20% OFF
+                    </div>
+<div class="relative w-full aspect-square bg-surface-container-low p-4 flex items-center justify-center">
+<img alt="Fresh bunch of vibrant yellow bananas on a clean background, studio lighting" class="object-contain w-full h-full mix-blend-multiply group-hover:scale-105 transition-transform duration-300" data-alt="Fresh bunch of vibrant yellow bananas on a clean background, studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAY2pOqdKp4EVz1y1Uyg6oF0z8YiT3_-8ABqQ4T5Qu4CRmSNtuQU2OaPCxv6J46ReC9Bi-rcAZ4yXP_Lz73aCUxjZo0GhgCFGfW0umlADRUGcf9blTSUyb9Txsmimf0-IcqSyQXRZ7Ke6eDgRITZuv6QHgsEGQYZIkPrP6gfoztfhcNNKNw0rZjljkYVneyjaSYJNZPNXboahMN3yV_4eneHxnrgHb52hnHZ8JnW0pVV_2CQDvEKd5ngjPmnBqGHCHJ5yCGDmFBNdY"/>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-label-lg text-label-lg text-on-surface line-clamp-2 mb-1">Robusta Bananas</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 text-xs">500g</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">₹32</span>
+<span class="font-label-sm text-label-sm text-outline line-through text-[10px]">₹40</span>
+</div>
+<button class="bg-primary-container text-on-primary-container hover:bg-primary hover:text-on-primary font-label-lg text-label-lg font-bold px-4 py-1.5 rounded-lg border border-primary-container transition-colors shadow-sm">
+                                ADD
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col relative group">
+<div class="relative w-full aspect-square bg-surface-container-low p-4 flex items-center justify-center">
+<img alt="Fresh, bright orange carrots with green leafy tops, rustic styling" class="object-contain w-full h-full mix-blend-multiply group-hover:scale-105 transition-transform duration-300" data-alt="Fresh, bright orange carrots with green leafy tops, rustic styling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5YfHlSDoDTe5gxvfXbFhu1RsM1UqbgeeEEj2tbOtfL02eQikdUMQnIM9Lei3c7eQ6ai6paFYoYoGOTz-GTd764b9ApdKYSJth_Dsf_4kt_xw_4TpE6NZMv7f0dHV9EZQaqCtaiUynqmYrkUQK12bZPIyPTvATKDhcsTrniMPs0uE1v_GLY3qMY1oJf1SGB99SXdR0ivpI3Iy2NDm_w4dNrFRuJT0dsu9ScV6e69vGWCI4FdJo3_8xfFnLVf7bNNKgnKKIHUcT23A"/>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-label-lg text-label-lg text-on-surface line-clamp-2 mb-1">Fresh Carrots (Ooty)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 text-xs">500g</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">₹45</span>
+</div>
+<button class="bg-surface-container-lowest text-primary hover:bg-primary-container hover:text-on-primary-container font-label-lg text-label-lg font-bold px-4 py-1.5 rounded-lg border border-outline transition-colors shadow-sm">
+                                ADD
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col relative group">
+<div class="absolute top-2 left-2 bg-[#af88ff] text-[#25005a] font-label-sm text-label-sm px-2 py-0.5 rounded text-[10px] uppercase font-bold z-10 shadow-sm">
+                        Bestseller
+                    </div>
+<div class="relative w-full aspect-square bg-surface-container-low p-4 flex items-center justify-center">
+<img alt="Crisp, unpeeled raw potatoes grouped together on a light surface" class="object-contain w-full h-full mix-blend-multiply group-hover:scale-105 transition-transform duration-300" data-alt="Crisp, unpeeled raw potatoes grouped together on a light surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAX6RG0mIZBxICVLyYyhMH_FXBVD_S4ZbBfUmTwHAdeGjkUSpbs6x6I8cVOg5spvyYtB010E0wzvy3YLgijhI4drCj9HShwxz2cHfGkuwc1eyMz_gAJyvcjks05xE-tcEBXvPLNZ0BrxaOHGFa9FFJyjZnjBlhm_6X8JEBkATZ3Vv_mXyiifOXPRlLJHTgvKwqSQu4TXrSL3OIf_Qo4p8Eq4enUSS1KIhkR3zyh5LW-4nDFKQw101a4FMnj22FgRtsbrGDLFPiEG-k"/>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-label-lg text-label-lg text-on-surface line-clamp-2 mb-1">Potato (Aloo)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 text-xs">1 kg</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">₹38</span>
+</div>
+<button class="bg-surface-container-lowest text-primary hover:bg-primary-container hover:text-on-primary-container font-label-lg text-label-lg font-bold px-4 py-1.5 rounded-lg border border-outline transition-colors shadow-sm">
+                                ADD
+                            </button>
+</div>
+</div>
+</div>
+<!-- Product Card 4 -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_4px_12px_rgba(0,0,0,0.05)] overflow-hidden flex flex-col relative group">
+<div class="absolute top-2 left-2 bg-secondary-container text-on-secondary-container font-label-sm text-label-sm px-2 py-0.5 rounded text-[10px] uppercase font-bold z-10 shadow-sm">
+                        10% OFF
+                    </div>
+<div class="relative w-full aspect-square bg-surface-container-low p-4 flex items-center justify-center">
+<img alt="Bright red, ripe tomatoes on the vine, fresh produce lighting" class="object-contain w-full h-full mix-blend-multiply group-hover:scale-105 transition-transform duration-300" data-alt="Bright red, ripe tomatoes on the vine, fresh produce lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDLBnnBCp0b-Gwb8NYDWdx1sc675pUM5K-gfyPcW10X4KkplRJp7BOjbH7IVA_bdMtClblI-woLBbjXua4MfwK_gf8rX9afSon0F6QQTYzML9V5t-cHel2gg0QxRj_8Au16nbZV-9OmjD6FgoKHomJ6-YL3582X832ZiIrzaqY0p5F79Yi6IHy14FJuqwmrlhFMhkFx0NgV_07pBDcoGR2R68TjOvkRUYocw6yZonzK49DTwB9W3qE8mWtHWVq9nXQGCcKbGPWHX2U"/>
+</div>
+<div class="p-3 flex flex-col flex-grow">
+<h3 class="font-label-lg text-label-lg text-on-surface line-clamp-2 mb-1">Tomato Hybrid</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-3 text-xs">500g</p>
+<div class="mt-auto flex items-center justify-between">
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg font-bold text-on-surface">₹26</span>
+<span class="font-label-sm text-label-sm text-outline line-through text-[10px]">₹29</span>
+</div>
+<button class="bg-surface-container-lowest text-primary hover:bg-primary-container hover:text-on-primary-container font-label-lg text-label-lg font-bold px-4 py-1.5 rounded-lg border border-outline transition-colors shadow-sm">
+                                ADD
+                            </button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pt-2 pb-safe bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#38B44E] transition-colors duration-200 w-16 pb-2" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">home</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px]">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#38B44E] scale-110 transition-transform w-16 pb-2" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]" style="font-variation-settings: 'FILL' 1;">grid_view</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px]">Categories</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#38B44E] transition-colors duration-200 w-16 pb-2" href="#">
+<span class="material-symbols-outlined mb-1 text-[24px]">search</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px]">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#38B44E] transition-colors duration-200 w-16 pb-2 relative" href="#">
+<div class="absolute top-0 right-2 w-2 h-2 bg-[#fb7800] rounded-full"></div>
+<span class="material-symbols-outlined mb-1 text-[24px]">shopping_cart</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px]">Cart</span>
+</a>
+</nav>
+</body></html>

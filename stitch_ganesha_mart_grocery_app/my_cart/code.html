@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Shopping Cart</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&amp;family=Be+Vietnam+Pro:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-low": "#f3f3f6",
+                        "surface-container": "#eeeef0",
+                        "primary-fixed-dim": "#66df73",
+                        "tertiary-fixed": "#eaddff",
+                        "primary-fixed": "#82fc8c",
+                        "surface-container-highest": "#e2e2e5",
+                        "secondary": "#994700",
+                        "on-surface-variant": "#3e4a3c",
+                        "inverse-on-surface": "#f0f0f3",
+                        "surface-variant": "#e2e2e5",
+                        "primary": "#006e24",
+                        "secondary-container": "#fb7800",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-tertiary-container": "#440099",
+                        "on-surface": "#1a1c1e",
+                        "outline-variant": "#bdcab8",
+                        "on-background": "#1a1c1e",
+                        "tertiary-fixed-dim": "#d2bbff",
+                        "secondary-fixed-dim": "#ffb68b",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#5a00c6",
+                        "on-error": "#ffffff",
+                        "primary-container": "#38b44e",
+                        "tertiary-container": "#af88ff",
+                        "inverse-surface": "#2f3133",
+                        "on-primary-container": "#003f11",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-fixed": "#25005a",
+                        "outline": "#6e7b6b",
+                        "inverse-primary": "#66df73",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#321200",
+                        "surface-tint": "#006e24",
+                        "on-primary-fixed-variant": "#005319",
+                        "surface-dim": "#dadadc",
+                        "on-secondary-container": "#592600",
+                        "surface-container-high": "#e8e8ea",
+                        "surface": "#f9f9fc",
+                        "secondary-fixed": "#ffdbc8",
+                        "on-secondary-fixed-variant": "#753400",
+                        "surface-bright": "#f9f9fc",
+                        "background": "#f9f9fc",
+                        "on-error-container": "#93000a",
+                        "tertiary": "#732ee4",
+                        "on-primary-fixed": "#002106"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "0.25rem",
+                        "container-margin": "1rem",
+                        "stack-lg": "1.5rem",
+                        "stack-md": "1rem",
+                        "gutter": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Be Vietnam Pro"],
+                        "headline-sm": ["Plus Jakarta Sans"],
+                        "label-lg": ["Be Vietnam Pro"],
+                        "body-md": ["Be Vietnam Pro"],
+                        "body-lg": ["Be Vietnam Pro"],
+                        "headline-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+                        "headline-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-lg": ["14px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface-container-low text-on-surface min-h-screen flex flex-col font-body-md">
+<!-- TopAppBar -->
+<header class="bg-white dark:bg-gray-900 border-b border-gray-100 dark:border-gray-800 shadow-sm flex justify-between items-center w-full px-4 py-3 sticky top-0 z-50 transition-colors duration-200">
+<div class="flex items-center gap-2 text-[#38B44E] font-['Plus_Jakarta_Sans'] font-semibold text-sm">
+<span class="material-symbols-outlined hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full p-1 cursor-pointer">location_on</span>
+<span>Delivering to Vinay Nagar, Faridabad</span>
+</div>
+<span class="material-symbols-outlined text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-full p-1 cursor-pointer">account_circle</span>
+</header>
+<main class="flex-grow pb-32">
+<div class="max-w-3xl mx-auto px-4 py-6 flex flex-col gap-6">
+<!-- Cart Items -->
+<section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm">
+<div class="flex items-center justify-between mb-4 border-b border-surface-variant pb-2">
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Items in Cart</h2>
+<span class="font-label-sm text-label-sm text-surface-tint bg-primary-container/10 px-2 py-1 rounded-full">3 Items</span>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Item 1 -->
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-surface-container">
+<img alt="Fresh green apples" class="w-full h-full object-cover" data-alt="Close up of fresh, crisp green apples with water droplets, bright studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBmAYa-VltL7lRgRnSjyN3y6ZSYBSZLhfNR39r-Xz6kl1uFBSaIQNL7x-8R-IB-yvCW5O9g9eDKtQidsY_IguaBhPN1P2vnBPHBSqIAx39smcfbs7r-TcuryWKXS2Llp1F3Nf4fiCf0wiZ1mcWac8XKjsQU3Z2YvCmeEfDthildxUJXVUlS8GL7IPHFgfZBMrnJ_mTakPCiDyCg4ww6gjOD-5-ZRzy2z7qCPQVUJghTeb57Gnd1e4quzjYuQBQHF29FI2IO_yGV-k"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-label-lg text-label-lg text-on-surface">Fresh Green Apples (Granny Smith)</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">1 kg</p>
+<p class="font-label-lg text-label-lg text-surface-tint mt-1">₹180</p>
+</div>
+<div class="flex items-center bg-primary-container text-on-primary-container rounded-lg shadow-sm">
+<button class="p-1"><span class="material-symbols-outlined text-[20px]">remove</span></button>
+<span class="font-label-lg text-label-lg px-2">1</span>
+<button class="p-1"><span class="material-symbols-outlined text-[20px]">add</span></button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex items-start gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 bg-surface-container">
+<img alt="Whole wheat bread" class="w-full h-full object-cover" data-alt="Sliced whole wheat artisan bread on a wooden board, warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9mkFnuXjnMPxgU1MlOSUdqu1nxN14qUwS2vC5Kox1YkeP7Dmu45ZNL_oxibi8p47AqoHmzleAnsej6wuZ5KMx6xwVcKuFsZcLx5YGz8TYteaSYrmaKPWQL8zWi7xOP7PNmGnBkuK4bmGOnboU9nOi_HrASPke7z1Zn86cO-kLLTkfVrrgrpZL4xi2n11UNNgv1-uD-fNs1yZeL82uJ9Otv6HuxDzcdwqt2JHtb6jb8_g95soDBZXsmvj2C8tQ6RYNReayL4jMf18"/>
+</div>
+<div class="flex-grow">
+<h3 class="font-label-lg text-label-lg text-on-surface">Whole Wheat Artisan Bread</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">400 g</p>
+<p class="font-label-lg text-label-lg text-surface-tint mt-1">₹55</p>
+</div>
+<div class="flex items-center bg-primary-container text-on-primary-container rounded-lg shadow-sm">
+<button class="p-1"><span class="material-symbols-outlined text-[20px]">remove</span></button>
+<span class="font-label-lg text-label-lg px-2">2</span>
+<button class="p-1"><span class="material-symbols-outlined text-[20px]">add</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- Delivery Tip -->
+<section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm">
+<div class="flex items-center gap-2 mb-3">
+<span class="material-symbols-outlined text-secondary-container">volunteer_activism</span>
+<h2 class="font-label-lg text-label-lg text-on-surface">Say thanks with a tip</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-4">100% of your tip goes to the delivery partner.</p>
+<div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+<button class="shrink-0 border border-outline-variant rounded-lg px-4 py-2 font-label-lg text-label-lg text-on-surface hover:bg-surface-container transition-colors">₹20</button>
+<button class="shrink-0 border border-primary-container bg-primary-container/10 rounded-lg px-4 py-2 font-label-lg text-label-lg text-surface-tint">₹30</button>
+<button class="shrink-0 border border-outline-variant rounded-lg px-4 py-2 font-label-lg text-label-lg text-on-surface hover:bg-surface-container transition-colors">₹50</button>
+<button class="shrink-0 border border-outline-variant rounded-lg px-4 py-2 font-label-lg text-label-lg text-on-surface hover:bg-surface-container transition-colors">Custom</button>
+</div>
+</section>
+<!-- Bill Summary -->
+<section class="bg-surface-container-lowest rounded-xl p-4 shadow-sm">
+<h2 class="font-headline-sm text-headline-sm text-on-surface mb-4">Bill Summary</h2>
+<div class="flex flex-col gap-2">
+<div class="flex justify-between font-body-md text-body-md text-on-surface">
+<span>Item Total</span>
+<span>₹290</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface">
+<span>Delivery Fee</span>
+<span class="text-surface-tint">Free</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface">
+<span>Handling Charge</span>
+<span>₹15</span>
+</div>
+<div class="flex justify-between font-body-md text-body-md text-on-surface">
+<span>Delivery Tip</span>
+<span>₹30</span>
+</div>
+<div class="border-t border-surface-variant my-2"></div>
+<div class="flex justify-between font-headline-sm text-headline-sm text-on-surface">
+<span>To Pay</span>
+<span>₹335</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Actions & Nav -->
+<div class="fixed bottom-0 w-full z-50">
+<!-- Floating Action Button Area (Contextual: Select Address & Pay) -->
+<div class="bg-surface-container-lowest px-4 py-3 shadow-[0_-8px_20px_rgba(0,0,0,0.08)] rounded-t-2xl">
+<button class="w-full bg-primary-container text-on-primary-container font-headline-sm text-headline-sm py-4 rounded-xl flex items-center justify-between px-6 shadow-md hover:opacity-90 transition-opacity">
+<div class="flex flex-col items-start">
+<span class="text-sm font-normal">₹335</span>
+<span>TOTAL</span>
+</div>
+<div class="flex items-center gap-2">
+<span>Select Address &amp; Pay</span>
+<span class="material-symbols-outlined">arrow_forward_ios</span>
+</div>
+</button>
+</div>
+<!-- BottomNavBar -->
+<nav class="bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-t border-gray-100 dark:border-gray-800 shadow-[0_-4px_12px_rgba(0,0,0,0.05)] md:hidden">
+<div class="flex justify-around items-center px-4 pt-2 pb-safe">
+<div class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#38B44E] transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] mt-1">Home</span>
+</div>
+<div class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#38B44E] transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] mt-1">Categories</span>
+</div>
+<div class="flex flex-col items-center justify-center text-gray-400 dark:text-gray-500 hover:text-[#38B44E] transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined">search</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] mt-1">Search</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#38B44E] scale-110 transition-transform hover:text-[#38B44E] transition-all duration-150 cursor-pointer">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="font-['Plus_Jakarta_Sans'] font-medium text-[10px] mt-1 font-bold">Cart</span>
+</div>
+</div>
+</nav>
+</div>
+</body></html>

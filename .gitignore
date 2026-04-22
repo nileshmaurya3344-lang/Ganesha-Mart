@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.DS_Store
+*.local
+ganesha-mart-app/node_modules/
+ganesha-mart-app/dist/
+.env
+.env.local
