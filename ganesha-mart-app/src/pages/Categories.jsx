@@ -118,7 +118,7 @@ export default function Categories() {
       </div>
 
       {totalItems > 0 && (
-        <div className="view-cart-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px' }} onClick={() => navigate('/cart')}>
+        <div className="view-cart-bar" onClick={() => navigate('/cart')}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontWeight: 700 }}>{totalItems} item{totalItems > 1 ? 's' : ''} in cart</span>
           </div>

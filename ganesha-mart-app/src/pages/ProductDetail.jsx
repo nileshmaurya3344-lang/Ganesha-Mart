@@ -174,7 +174,7 @@ export default function ProductDetail() {
         </div>
 
         {totalItems > 0 && (
-          <div className="view-cart-bar" style={{ bottom: 84, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px' }} onClick={() => navigate('/cart')}>
+          <div className="view-cart-bar" style={{ bottom: 84 }} onClick={() => navigate('/cart')}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <span style={{ fontWeight: 700 }}>{totalItems} item{totalItems > 1 ? 's' : ''} in cart</span>
             </div>
