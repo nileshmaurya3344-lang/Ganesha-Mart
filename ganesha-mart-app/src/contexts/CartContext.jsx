@@ -11,14 +11,19 @@ export function CartProvider({ children }) {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const isMock = user?.id?.startsWith('00000000');
+
   useEffect(() => {
-    if (user) {
+    if (user && !isMock) {
       mergeGuestCart();
+    } else if (user && isMock) {
+      const saved = localStorage.getItem(`cart_${user.id}`);
+      setCartItems(saved ? JSON.parse(saved) : []);
     } else {
       const saved = localStorage.getItem('guest_cart');
       setCartItems(saved ? JSON.parse(saved) : []);
     }
-  }, [user]);
+  }, [user, isMock]);
 
   async function mergeGuestCart() {
     const saved = localStorage.getItem('guest_cart');
@@ -56,12 +61,14 @@ export function CartProvider({ children }) {
     fetchCart();
   }
 
-  // Sync guest cart to localStorage
+  // Sync cart to localStorage
   useEffect(() => {
     if (!user) {
       localStorage.setItem('guest_cart', JSON.stringify(cartItems));
+    } else if (isMock) {
+      localStorage.setItem(`cart_${user.id}`, JSON.stringify(cartItems));
     }
-  }, [cartItems, user]);
+  }, [cartItems, user, isMock]);
 
   async function fetchCart() {
     const { data } = await supabase
@@ -72,14 +79,14 @@ export function CartProvider({ children }) {
   }
 
   async function addToCart(product) {
-    if (!user) {
+    if (!user || isMock) {
       const existing = cartItems.find(i => i.product_id === product.id);
       if (existing) {
         setCartItems(prev => prev.map(i => i.product_id === product.id ? { ...i, quantity: i.quantity + 1 } : i));
       } else {
         const newItem = {
-          id: `guest-${Date.now()}`,
-          user_id: null,
+          id: `local-${Date.now()}`,
+          user_id: user?.id || null,
           product_id: product.id,
           quantity: 1,
           products: product
@@ -88,35 +95,63 @@ export function CartProvider({ children }) {
       }
       return;
     }
-    const existing = cartItems.find(i => i.product_id === product.id);
-    if (existing) {
-      await updateQty(existing.id, existing.quantity + 1);
-    } else {
-      const { data } = await supabase.from('cart_items').insert({
-        user_id: user.id, product_id: product.id, quantity: 1
-      }).select('*, products(*)').single();
-      if (data) setCartItems(prev => [...prev, data]);
+
+    // Real Supabase User logic
+    try {
+      const existing = cartItems.find(i => i.product_id === product.id);
+      if (existing) {
+        await updateQty(existing.id, existing.quantity + 1);
+      } else {
+        const { data, error } = await supabase.from('cart_items').insert({
+          user_id: user.id, product_id: product.id, quantity: 1
+        }).select('*, products(*)').single();
+        
+        if (error) throw error;
+        if (data) setCartItems(prev => [...prev, data]);
+      }
+    } catch (err) {
+      console.error('Cart Error:', err);
+      // Fallback to local state if DB fails, so user is not blocked
+      const newItem = {
+        id: `fallback-${Date.now()}`,
+        user_id: user.id,
+        product_id: product.id,
+        quantity: 1,
+        products: product
+      };
+      setCartItems(prev => [...prev, newItem]);
     }
   }
 
   async function updateQty(cartItemId, qty) {
     if (qty <= 0) return removeFromCart(cartItemId);
     
-    if (!user) {
+    if (!user || isMock || String(cartItemId).startsWith('local-') || String(cartItemId).startsWith('fallback-')) {
       setCartItems(prev => prev.map(i => i.id === cartItemId ? { ...i, quantity: qty } : i));
       return;
     }
 
-    await supabase.from('cart_items').update({ quantity: qty }).eq('id', cartItemId);
-    setCartItems(prev => prev.map(i => i.id === cartItemId ? { ...i, quantity: qty } : i));
+    try {
+      const { error } = await supabase.from('cart_items').update({ quantity: qty }).eq('id', cartItemId);
+      if (error) throw error;
+      setCartItems(prev => prev.map(i => i.id === cartItemId ? { ...i, quantity: qty } : i));
+    } catch (err) {
+      console.error('Update Qty Error:', err);
+      // Still update local state even if DB fails
+      setCartItems(prev => prev.map(i => i.id === cartItemId ? { ...i, quantity: qty } : i));
+    }
   }
 
   async function removeFromCart(cartItemId) {
-    if (!user) {
+    if (!user || isMock || String(cartItemId).startsWith('local-') || String(cartItemId).startsWith('fallback-')) {
       setCartItems(prev => prev.filter(i => i.id !== cartItemId));
       return;
     }
-    await supabase.from('cart_items').delete().eq('id', cartItemId);
+    try {
+      await supabase.from('cart_items').delete().eq('id', cartItemId);
+    } catch (err) {
+      console.error('Remove Error:', err);
+    }
     setCartItems(prev => prev.filter(i => i.id !== cartItemId));
   }
 
