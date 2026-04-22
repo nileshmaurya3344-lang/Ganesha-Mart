@@ -1,0 +1,8 @@
+{
+  "buildCommand": "cd ganesha-mart-app && npm install && npm run build",
+  "outputDirectory": "ganesha-mart-app/dist",
+  "framework": "vite",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
