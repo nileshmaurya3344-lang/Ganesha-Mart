@@ -25,12 +25,21 @@ export default function Orders() {
   }, [user]);
 
   async function fetchOrders() {
-    const { data } = await supabase
-      .from('orders')
-      .select('*, order_items(*, products(name))')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false });
-    setOrders(data || []);
+    const isMock = user?.id?.startsWith('00000000');
+    let allOrders = [];
+
+    if (isMock) {
+      allOrders = JSON.parse(localStorage.getItem(`orders_${user.id}`) || '[]');
+    } else {
+      const { data } = await supabase
+        .from('orders')
+        .select('*, order_items(*, products(name))')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false });
+      allOrders = data || [];
+    }
+
+    setOrders(allOrders);
     setLoading(false);
   }
 

@@ -19,6 +19,40 @@ export default function Checkout() {
   async function placeOrder() {
     if (!address.name || !address.line1) { toast.error('Please fill delivery address'); return; }
     setLoading(true);
+    
+    const isMock = user?.id?.startsWith('00000000');
+
+    if (isMock) {
+      // Handle Mock Order
+      const mockOrder = {
+        id: `mock-${Math.random().toString(36).substr(2, 9)}`,
+        user_id: user.id,
+        total_amount: grandTotal,
+        delivery_fee: deliveryFee,
+        status: 'pending',
+        payment_method: payMethod,
+        payment_status: payMethod === 'cod' ? 'pending' : 'paid',
+        delivery_address: address,
+        created_at: new Date().toISOString(),
+        order_items: cartItems.map(i => ({
+          id: `mi-${Math.random().toString(36).substr(2, 9)}`,
+          product_id: i.product_id,
+          quantity: i.quantity,
+          unit_price: i.products.price,
+          products: { name: i.products.name }
+        }))
+      };
+
+      const savedOrders = JSON.parse(localStorage.getItem(`orders_${user.id}`) || '[]');
+      localStorage.setItem(`orders_${user.id}`, JSON.stringify([mockOrder, ...savedOrders]));
+      
+      await clearCart();
+      toast.success('Order placed successfully! 🎉');
+      navigate('/orders');
+      setLoading(false);
+      return;
+    }
+
     try {
       const { data: order, error } = await supabase.from('orders').insert({
         user_id: user.id,
