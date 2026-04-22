@@ -6,7 +6,7 @@ import { useCart } from '../contexts/CartContext';
 
 export default function Search() {
   const navigate = useNavigate();
-  const { totalItems } = useCart();
+  const { totalItems, totalPrice } = useCart();
   const [query, setQuery] = useState('');
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -136,11 +136,13 @@ export default function Search() {
       </div>
 
       {totalItems > 0 && (
-        <div className="view-cart-bar" onClick={() => navigate('/cart')}>
-          <span>{totalItems} item{totalItems > 1 ? 's' : ''} in cart</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-            <span>View Cart</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        <div className="view-cart-bar" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px' }} onClick={() => navigate('/cart')}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontWeight: 700 }}>{totalItems} item{totalItems > 1 ? 's' : ''} in cart</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontWeight: 700 }}>View Cart | ₹{totalPrice}</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="9 18 15 12 9 6"/></svg>
           </div>
         </div>
       )}

@@ -12,7 +12,7 @@ export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { addToCart, updateQty, getQty, getCartItem, totalItems } = useCart();
+  const { addToCart, updateQty, getQty, getCartItem, totalItems, totalPrice } = useCart();
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -157,33 +157,30 @@ export default function ProductDetail() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ flex: 1 }}>
               <div style={{ fontSize: 12, color: 'var(--outline)' }}>Total Price</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)' }}>₹{(product.price * (qty || 1)).toFixed(0)}</div>
+              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)' }}>₹{product.price}</div>
             </div>
             {qty === 0 ? (
               <button className="btn-primary" style={{ width: 'auto', flex: 1.5, height: 48 }} onClick={handleAdd}>
                 Add to Cart
               </button>
             ) : (
-              <div style={{ flex: 1.5, display: 'flex', gap: 8 }}>
-                <div className="stepper" style={{ flex: 1, height: 48, justifyContent: 'center' }}>
-                  <button onClick={() => updateQty(cartItem.id, qty - 1)}>−</button>
-                  <span style={{ fontWeight: 700 }}>{qty}</span>
-                  <button onClick={() => updateQty(cartItem.id, qty + 1)}>+</button>
-                </div>
-                <button className="btn-primary" style={{ width: 'auto', flex: 1, height: 48, background: 'var(--tertiary)' }} onClick={() => navigate('/cart')}>
-                  Proceed
-                </button>
+              <div className="stepper" style={{ flex: 1.5, height: 48, justifyContent: 'center' }}>
+                <button onClick={() => updateQty(cartItem.id, qty - 1)}>−</button>
+                <span style={{ fontWeight: 700 }}>{qty}</span>
+                <button onClick={() => updateQty(cartItem.id, qty + 1)}>+</button>
               </div>
             )}
           </div>
         </div>
 
-        {totalItems > 0 && qty === 0 && (
-          <div className="view-cart-bar" style={{ bottom: 84 }} onClick={() => navigate('/cart')}>
-            <span>{totalItems} item{totalItems > 1 ? 's' : ''} in cart</span>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span>View Cart</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        {totalItems > 0 && (
+          <div className="view-cart-bar" style={{ bottom: 84, display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0 16px' }} onClick={() => navigate('/cart')}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontWeight: 700 }}>{totalItems} item{totalItems > 1 ? 's' : ''} in cart</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ fontWeight: 700 }}>View Cart | ₹{totalPrice}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="9 18 15 12 9 6"/></svg>
             </div>
           </div>
         )}
