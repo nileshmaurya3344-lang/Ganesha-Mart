@@ -23,16 +23,24 @@ export default function Home() {
   }, []);
 
   async function fetchData() {
-    const [cats, prods] = await Promise.all([
-      supabase.from('categories').select('*').order('sort_order'),
-      supabase.from('products').select('*, categories(name)').eq('is_active', true).order('created_at', { ascending: false }).limit(20),
-    ]);
-    setCategories(cats.data || []);
-    const all = prods.data || [];
-    setProducts(all);
-    // Assuming we don't have is_featured in DB, just pick first 8 for featured/trending
-    setFeatured(all.slice(0, 8));
-    setLoading(false);
+    try {
+      const [cats, prods] = await Promise.all([
+        supabase.from('categories').select('*').order('sort_order'),
+        supabase.from('products').select('*, categories(name)').eq('is_active', true).order('created_at', { ascending: false }).limit(20),
+      ]);
+      
+      if (cats.error) console.warn('Categories fetch error:', cats.error);
+      if (prods.error) console.warn('Products fetch error:', prods.error);
+
+      setCategories(cats.data || []);
+      const all = prods.data || [];
+      setProducts(all);
+      setFeatured(all.slice(0, 8));
+    } catch (err) {
+      console.error('Fetch data error:', err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const trending = products.slice(0, 8);

@@ -16,25 +16,25 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     async function init() {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (session?.user) {
-        setUser(session.user);
-        await fetchProfile(session.user.id);
-      } else {
-        // If no supabase session, we might already have mock state from useState initializer
-        if (user && profile) {
-          setLoading(false);
-        } else {
-          setLoading(false);
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session?.user) {
+          setUser(session.user);
+          await fetchProfile(session.user.id);
         }
+      } catch (err) {
+        console.error('Auth init error:', err);
+      } finally {
+        setLoading(false);
       }
     }
     init();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
         setUser(session.user);
-        fetchProfile(session.user.id);
+        await fetchProfile(session.user.id);
+        setLoading(false);
       } else {
         // Only clear if not in mock mode?
         // Let's check if we have a mock flag

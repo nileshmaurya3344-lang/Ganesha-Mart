@@ -19,23 +19,35 @@ export default function Categories() {
   useEffect(() => { if (activeCat) fetchProducts(activeCat); }, [activeCat]);
 
   async function fetchCategories() {
-    const { data } = await supabase.from('categories').select('*').order('sort_order');
-    setCategories(data || []);
-    const first = searchParams.get('cat') || data?.[0]?.id;
-    setActiveCat(first);
-    setLoading(false);
+    try {
+      const { data, error } = await supabase.from('categories').select('*').order('sort_order');
+      if (error) throw error;
+      setCategories(data || []);
+      const first = searchParams.get('cat') || data?.[0]?.id;
+      setActiveCat(first);
+    } catch (err) {
+      console.error('Error fetching categories:', err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   async function fetchProducts(categoryId) {
     setLoading(true);
-    const { data } = await supabase
-      .from('products')
-      .select('*, categories(name)')
-      .eq('category_id', categoryId)
-      .eq('is_active', true)
-      .order('created_at', { ascending: false });
-    setProducts(data || []);
-    setLoading(false);
+    try {
+      const { data, error } = await supabase
+        .from('products')
+        .select('*, categories(name)')
+        .eq('category_id', categoryId)
+        .eq('is_active', true)
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      setProducts(data || []);
+    } catch (err) {
+      console.error('Error fetching products:', err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   const activeCategory = categories.find(c => c.id === activeCat);
