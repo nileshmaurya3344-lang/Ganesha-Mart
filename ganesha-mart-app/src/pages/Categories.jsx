@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import ProductCard from '../components/ProductCard';
-import BottomNav from '../components/BottomNav';
 import { useCart } from '../contexts/CartContext';
 
 import { CATEGORY_IMAGES, cleanCategoryName, EXCLUDED_CATEGORIES } from '../utils/format';
@@ -129,7 +128,6 @@ export default function Categories() {
         </div>
       )}
 
-      <BottomNav active="categories" />
     </div>
   );
 }

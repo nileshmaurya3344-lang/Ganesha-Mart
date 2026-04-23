@@ -153,37 +153,73 @@ export default function ProductDetail() {
         )}
 
         {/* Add to Cart Sticky Bar */}
-        <div style={{ position: 'fixed', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: '100%', maxWidth: 430, padding: '16px', background: 'var(--surface-lowest)', borderTop: '1px solid var(--outline-variant)', zIndex: 100 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <div style={{ 
+          position: 'fixed', 
+          bottom: 0, 
+          left: '50%', 
+          transform: 'translateX(-50%)', 
+          width: '100%', 
+          maxWidth: 430, 
+          padding: '16px 20px 24px', 
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(10px)',
+          borderTop: '1px solid var(--outline-variant)', 
+          zIndex: 100,
+          boxShadow: '0 -10px 20px rgba(0,0,0,0.05)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 12, color: 'var(--outline)' }}>Total Price</div>
-              <div style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)' }}>₹{product.price}</div>
+              <div style={{ fontSize: 11, color: 'var(--outline)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.5px' }}>Total Price</div>
+              <div style={{ fontSize: 24, fontWeight: 800, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: 4 }}>
+                <span style={{ fontSize: 16, marginTop: 4 }}>₹</span>{product.price}
+              </div>
             </div>
             {qty === 0 ? (
-              <button className="btn-primary" style={{ width: 'auto', flex: 1.5, height: 48 }} onClick={handleAdd}>
+              <button 
+                className="btn-primary" 
+                style={{ width: 'auto', flex: 2, height: 52, borderRadius: 16, fontSize: 16, fontWeight: 700 }} 
+                onClick={handleAdd}
+              >
                 Add to Cart
               </button>
             ) : (
-              <div className="stepper" style={{ flex: 1.5, height: 48, justifyContent: 'center' }}>
-                <button onClick={() => updateQty(cartItem.id, qty - 1)}>−</button>
-                <span style={{ fontWeight: 700 }}>{qty}</span>
-                <button onClick={() => updateQty(cartItem.id, qty + 1)}>+</button>
+              <div style={{ flex: 2, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <div className="stepper" style={{ height: 52, borderRadius: 16, background: 'var(--primary-container)', width: '100%' }}>
+                  <button onClick={() => updateQty(cartItem.id, qty - 1)} style={{ fontSize: 20 }}>−</button>
+                  <span style={{ fontWeight: 800, fontSize: 18 }}>{qty}</span>
+                  <button onClick={() => updateQty(cartItem.id, qty + 1)} style={{ fontSize: 20 }}>+</button>
+                </div>
               </div>
             )}
           </div>
+          
+          {totalItems > 0 && (
+            <button 
+              onClick={() => navigate('/cart')}
+              style={{ 
+                width: '100%', 
+                height: 48, 
+                background: 'var(--on-surface)', 
+                color: 'var(--surface)', 
+                border: 'none', 
+                borderRadius: 12, 
+                display: 'flex', 
+                alignItems: 'center', 
+                justifyContent: 'center', 
+                gap: 8,
+                fontSize: 14,
+                fontWeight: 700,
+                cursor: 'pointer'
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              View Cart ({totalItems} items) • ₹{totalPrice}
+            </button>
+          )}
         </div>
-
-        {totalItems > 0 && (
-          <div className="view-cart-bar" style={{ bottom: 84 }} onClick={() => navigate('/cart')}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontWeight: 700 }}>{totalItems} item{totalItems > 1 ? 's' : ''} in cart</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ fontWeight: 700 }}>View Cart | ₹{totalPrice}</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><polyline points="9 18 15 12 9 6"/></svg>
-            </div>
-          </div>
-        )}
       </div>
 
       <div style={{ height: 90 }} />

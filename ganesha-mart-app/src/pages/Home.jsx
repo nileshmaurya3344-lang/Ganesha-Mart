@@ -3,8 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
+import { useStore } from '../contexts/StoreContext';
 import ProductCard from '../components/ProductCard';
-import BottomNav from '../components/BottomNav';
 import TopHeader from '../components/TopHeader';
 
 import { CATEGORY_IMAGES, cleanCategoryName, EXCLUDED_CATEGORIES } from '../utils/format';
@@ -12,6 +12,7 @@ import { CATEGORY_IMAGES, cleanCategoryName, EXCLUDED_CATEGORIES } from '../util
 export default function Home() {
   const navigate = useNavigate();
   const { totalItems, totalPrice } = useCart();
+  const { morningDeliveryEnabled, morningCutoff } = useStore();
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [featured, setFeatured] = useState([]);
@@ -56,15 +57,17 @@ export default function Home() {
       </div>
 
       {/* Milk Scheduling Banner */}
-      <div style={{ padding: '0 16px 12px' }}>
-        <div className="promo-banner" style={{ background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)' }}>
-          <div style={{ flex: 1 }}>
-            <h3 style={{ fontSize: 18, marginBottom: 4 }}>Morning Milk Delivery</h3>
-            <p style={{ fontSize: 13, opacity: 0.95 }}>Schedule your milk now to get it delivered by <span style={{ fontWeight: 800, color: '#fff' }}>7 AM</span> every morning!</p>
+      {morningDeliveryEnabled && (
+        <div style={{ padding: '0 16px 12px' }}>
+          <div className="promo-banner" style={{ background: 'linear-gradient(135deg, #1e3a8a, #3b82f6)' }}>
+            <div style={{ flex: 1 }}>
+              <h3 style={{ fontSize: 18, marginBottom: 4 }}>Morning Milk Delivery</h3>
+              <p style={{ fontSize: 13, opacity: 0.95 }}>Order before <span style={{ fontWeight: 800, color: '#fff' }}>{morningCutoff}</span> to get it delivered by <span style={{ fontWeight: 800, color: '#fff' }}>7 AM</span> every morning!</p>
+            </div>
+            <button className="btn-secondary" style={{ width: 'auto', background: '#fff', color: '#1e3a8a', padding: '8px 16px' }} onClick={() => navigate('/categories?cat=milk')}>Schedule</button>
           </div>
-          <button className="btn-secondary" style={{ width: 'auto', background: '#fff', color: '#1e3a8a', padding: '8px 16px' }} onClick={() => navigate('/categories?cat=milk')}>Schedule</button>
         </div>
-      </div>
+      )}
 
       {/* Categories */}
       <div style={{ marginBottom: 20 }}>
@@ -154,7 +157,6 @@ export default function Home() {
         </div>
       )}
 
-      <BottomNav active="home" />
     </div>
   );
 }

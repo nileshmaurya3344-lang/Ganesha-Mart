@@ -6,4 +6,4 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Admin phone number
-export const ADMIN_PHONE = '+919999999999';
+export const ADMIN_PHONE = '+919999900000';

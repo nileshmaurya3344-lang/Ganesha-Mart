@@ -1,17 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import BottomNav from '../components/BottomNav';
+import { useStore } from '../contexts/StoreContext';
 import toast from 'react-hot-toast';
 
 export default function Cart() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { cartItems, updateQty, removeFromCart, totalItems, totalPrice } = useCart();
+  const { isOpen, minOrderValue, deliveryCharge, handlingCharge } = useStore();
 
-  const deliveryFee = totalPrice >= 199 ? 0 : 25;
+  const finalDeliveryFee = totalPrice >= 199 ? 0 : deliveryCharge; 
   const discount = totalPrice >= 299 ? 20 : 0;
-  const grandTotal = totalPrice + deliveryFee - discount;
+  const grandTotal = totalPrice + finalDeliveryFee + handlingCharge - discount;
 
   const handleProceed = () => {
     if (!user) {
@@ -86,32 +87,57 @@ export default function Cart() {
             ))}
           </div>
 
-
-
           {/* Bill Summary */}
           <div className="bill-card">
             <h3 style={{ fontSize: 16, marginBottom: 8 }}>Bill Summary</h3>
             <div className="bill-row"><span>Item Total</span><span>₹{totalPrice.toFixed(0)}</span></div>
-            <div className="bill-row"><span>Delivery Fee</span><span>{deliveryFee === 0 ? <span style={{ color: 'var(--success)' }}>FREE</span> : `₹${deliveryFee}`}</span></div>
+            <div className="bill-row"><span>Delivery</span><span>{finalDeliveryFee === 0 ? <span style={{ color: 'var(--success)' }}>FREE</span> : `₹${finalDeliveryFee}`}</span></div>
+            {handlingCharge > 0 && <div className="bill-row"><span>Handling Charge</span><span>₹{handlingCharge}</span></div>}
             {discount > 0 && <div className="bill-row discount"><span>Discount Applied</span><span>-₹{discount}</span></div>}
-            {deliveryFee > 0 && (
+            <div className="bill-row total"><span>Grand Total</span><span style={{ color: 'var(--primary)' }}>₹{grandTotal.toFixed(0)}</span></div>
+            {finalDeliveryFee > 0 && (
               <div style={{ background: 'rgba(0,110,36,0.08)', borderRadius: 8, padding: '8px', fontSize: 12, color: 'var(--primary)', marginTop: 4, fontWeight: 600 }}>
                 Add ₹{(199 - totalPrice).toFixed(0)} more for FREE delivery!
               </div>
             )}
-            <div className="bill-row total"><span>Grand Total</span><span style={{ color: 'var(--primary)' }}>₹{grandTotal.toFixed(0)}</span></div>
           </div>
+
+          {/* Store Closed Notice */}
+          {!isOpen && (
+            <div style={{ margin: '0 16px 12px', padding: '12px', background: 'rgba(255,59,48,0.1)', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, border: '1px solid rgba(255,59,48,0.2)' }}>
+              <span style={{ fontSize: 20 }}>🛑</span>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#FF3B30' }}>Store is currently closed</div>
+                <div style={{ fontSize: 12, color: 'var(--on-surface-variant)' }}>You can still add items to cart, but ordering is disabled.</div>
+              </div>
+            </div>
+          )}
+
+          {/* Min Order Warning */}
+          {isOpen && totalPrice < minOrderValue && (
+            <div style={{ margin: '0 16px 12px', padding: '12px', background: 'rgba(255,149,0,0.1)', borderRadius: 12, display: 'flex', alignItems: 'center', gap: 10, border: '1px solid rgba(255,149,0,0.2)' }}>
+              <span style={{ fontSize: 20 }}>⚠️</span>
+              <div>
+                <div style={{ fontSize: 13, fontWeight: 700, color: '#FF9500' }}>Minimum order ₹{minOrderValue}</div>
+                <div style={{ fontSize: 12, color: 'var(--on-surface-variant)' }}>Add items worth ₹{(minOrderValue - totalPrice).toFixed(0)} more to checkout.</div>
+              </div>
+            </div>
+          )}
 
           {/* Checkout Button */}
           <div style={{ padding: '0 16px 16px' }}>
-            <button className="btn-primary" onClick={handleProceed}>
-              Proceed to Checkout · ₹{grandTotal.toFixed(0)}
+            <button 
+              className="btn-primary" 
+              onClick={handleProceed}
+              disabled={!isOpen || totalPrice < minOrderValue}
+              style={{ background: (!isOpen || totalPrice < minOrderValue) ? 'var(--outline)' : undefined }}
+            >
+              {!isOpen ? 'Ordering Disabled' : totalPrice < minOrderValue ? `Add ₹${(minOrderValue - totalPrice).toFixed(0)} more` : `Proceed to Checkout · ₹${grandTotal.toFixed(0)}`}
             </button>
           </div>
         </>
       )}
 
-      <BottomNav active="cart" />
     </div>
   );
 }

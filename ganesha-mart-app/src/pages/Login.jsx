@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
-import BottomNav from '../components/BottomNav';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -148,7 +147,6 @@ export default function Login() {
         📍 Delivering to Vinay Nagar, Faridabad
       </div>
 
-      <BottomNav active="profile" />
     </div>
   );
 }

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useStore } from '../contexts/StoreContext';
 
 export default function TopHeader() {
   const navigate = useNavigate();
   const { user, profile, isAdmin } = useAuth();
+  const { isOpen } = useStore();
   const [locationStr, setLocationStr] = useState('Fetching location...');
 
   useEffect(() => {
@@ -45,7 +47,20 @@ export default function TopHeader() {
               <span style={{ fontSize: 18, fontWeight: 900, color: 'var(--primary)', letterSpacing: '-0.5px' }}>Ganesha Mart</span>
               {isAdmin && <span className="admin-badge" onClick={() => navigate('/admin')} style={{ fontSize: 9 }}>ADMIN</span>}
             </div>
-            <h1 style={{ fontSize: 13, fontWeight: 700, color: 'var(--on-surface)', marginTop: -2 }}>Delivery in 30 mins</h1>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <h1 style={{ fontSize: 13, fontWeight: 700, color: 'var(--on-surface)', marginTop: -2 }}>Delivery in 30 mins</h1>
+              {!isOpen && (
+                <span style={{ 
+                  fontSize: 10, 
+                  fontWeight: 800, 
+                  background: '#FF3B30', 
+                  color: 'white', 
+                  padding: '1px 6px', 
+                  borderRadius: 4,
+                  textTransform: 'uppercase'
+                }}>Closed</span>
+              )}
+            </div>
           </div>
           <p style={{ fontSize: 12, color: 'var(--outline)', display: 'flex', alignItems: 'center', gap: 4 }}>
             {locationStr} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>

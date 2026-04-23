@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { supabase } from '../lib/supabase';
-import BottomNav from '../components/BottomNav';
 import toast from 'react-hot-toast';
 
 export default function Profile() {
   const navigate = useNavigate();
-  const { user, profile, isAdmin, signOut } = useAuth();
+  const { user, profile, isAdmin, signOut, updateProfile } = useAuth();
   const [name, setName] = useState(profile?.full_name || '');
   const [saving, setSaving] = useState(false);
 
@@ -19,21 +18,24 @@ export default function Profile() {
     <div className="page">
       <div className="top-header"><h1 style={{ fontSize: 20 }}>Profile</h1></div>
       <div className="empty-state">
-        <span className="emoji">👤</span>
         <h3>Please login</h3>
         <p>Login to view your profile and settings</p>
         <button className="btn-primary" style={{ marginTop: 16 }} onClick={() => navigate('/login')}>Login Now</button>
       </div>
-      <BottomNav active="profile" />
     </div>
   );
 
   async function handleSave() {
+    if (!name.trim()) return toast.error('Name cannot be empty');
     setSaving(true);
-    const { error } = await supabase.from('profiles').update({ full_name: name }).eq('id', user.id);
+    const { error } = await updateProfile({ full_name: name });
     setSaving(false);
-    if (error) toast.error('Failed to update profile');
-    else toast.success('Profile updated!');
+    
+    if (error) {
+      toast.error('Failed to update profile');
+    } else {
+      toast.success('Profile updated!');
+    }
   }
 
   async function handleLogout() {
@@ -56,7 +58,7 @@ export default function Profile() {
           <div style={{ flex: 1 }}>
             <h2 style={{ fontSize: 20, marginBottom: 4 }}>{name || 'Ganesha Mart User'}</h2>
             <div style={{ fontSize: 14, color: 'var(--outline)', display: 'flex', alignItems: 'center', gap: 6 }}>
-              <span>📞</span> +91 {profile?.phone?.replace('+91', '') || user.phone?.replace('+91', '')}
+              Phone: +91 {profile?.phone?.replace('+91', '') || user.phone?.replace('+91', '')}
             </div>
           </div>
         </div>
@@ -76,17 +78,16 @@ export default function Profile() {
         {/* Menu */}
         <div style={{ background: 'var(--surface-lowest)', borderRadius: 20, padding: 8, marginBottom: 24, boxShadow: 'var(--shadow-sm)' }}>
           {[
-            { icon: '📦', label: 'My Orders', path: '/orders' },
-            { icon: '📍', label: 'Saved Addresses', path: '/addresses' },
-            { icon: '💬', label: 'Help & Support', path: '/support' },
-            { icon: '📄', label: 'Terms & Privacy', path: '/terms' },
+            { label: 'My Orders', path: '/orders' },
+            { label: 'Saved Addresses', path: '/profile/addresses' },
+            { label: 'Help & Support', path: '/support' },
+            { label: 'Terms & Privacy', path: '/terms' },
           ].map((item, i) => (
             <div key={i} onClick={() => navigate(item.path)} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px', borderBottom: i < 3 ? '1px solid var(--surface-container)' : 'none', cursor: 'pointer' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <span style={{ fontSize: 20 }}>{item.icon}</span>
                 <span style={{ fontSize: 15, fontWeight: 500 }}>{item.label}</span>
               </div>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--outline)" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+              {/* Removed chevron for strictly text-only look */}
             </div>
           ))}
         </div>
@@ -94,7 +95,7 @@ export default function Profile() {
         {isAdmin && (
           <div style={{ marginBottom: 24 }}>
             <button className="btn-primary" onClick={() => navigate('/admin')} style={{ background: 'linear-gradient(135deg, var(--tertiary), var(--tertiary-container))' }}>
-              👨‍💻 Open Admin Dashboard
+              Open Admin Dashboard
             </button>
           </div>
         )}
@@ -104,7 +105,6 @@ export default function Profile() {
         </button>
       </div>
 
-      <BottomNav active="profile" />
     </div>
   );
 }

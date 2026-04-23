@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../contexts/AuthContext';
-import BottomNav from '../components/BottomNav';
 
 const STATUS_CONFIG = {
   pending: { label: 'Order Placed', color: '#856404', bg: '#fff3cd', icon: '🕐' },
@@ -51,7 +50,6 @@ export default function Orders() {
         <h3>Login to see orders</h3>
         <button className="btn-primary" style={{ marginTop: 16 }} onClick={() => navigate('/login')}>Login</button>
       </div>
-      <BottomNav active="orders" />
     </div>
   );
 
@@ -120,7 +118,6 @@ export default function Orders() {
         </div>
       )}
 
-      <BottomNav active="orders" />
     </div>
   );
 }
